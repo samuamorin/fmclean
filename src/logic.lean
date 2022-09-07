@@ -229,19 +229,14 @@ theorem demorgan_disj_converse :
   (¬P ∧ ¬Q) → ¬(P∨Q)  :=
 begin
   intro hnpnq,
-  have hdisj := conj_as_negdisj (¬P) (¬Q) hnpnq,
-  have hduplneg:  (P∨Q)→(¬¬P ∨ ¬¬Q),
-      intro hor,
-      cases hor with hp hq,
-      ---- case P
-          left,
-          exact doubleneg_intro P hp,
-      --- case Q
-          right,
-          exact doubleneg_intro Q hq,
-  intro hor,
-  have hnnpq :(¬¬P ∨ ¬¬Q) := hduplneg hor,
-  contradiction,
+  intro hporq,
+  cases hnpnq with hnp hnq,
+  cases hporq with hp hq,
+      -- case P
+      contradiction,
+      -- Case Q
+      contradiction,
+  ---
 end
 
 theorem demorgan_conj :

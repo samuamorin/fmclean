@@ -161,14 +161,13 @@ end
 theorem peirce_law_weak :
   ((P → Q) → P) → ¬¬P  :=
 begin
-  have tdn := doubleneg_intro P,
   intro hpqp,
-  apply tdn,
-  have hpq: P → Q,
-      intro hp,
-      
-  
-
+  intro hnp,
+  have hpq: (P → Q),
+     intro hp,
+     contradiction,
+  have hp : P := hpqp hpq,
+  contradiction,
 end
 
 
@@ -210,22 +209,48 @@ end
 theorem demorgan_disj :
   ¬(P∨Q) → (¬P ∧ ¬Q)  :=
 begin
-  intro hnor,
-  have negconj := disj_as_negconj P Q,
-  have negconj : (¬P ∧ ¬Q) := negconj hnor,
-
+   intro hnpq,
+   split,
+   --- Part L
+      intro hp,
+      have hor : P∨Q,
+         left,
+         exact hp,
+      contradiction,
+    --- Part R
+      intro hq,
+      have hor: P∨Q,
+         right,
+         exact hq,
+      contradiction,
 end
 
 theorem demorgan_disj_converse :
   (¬P ∧ ¬Q) → ¬(P∨Q)  :=
 begin
-  sorry,
+  intro hnpnq,
+  have hdisj := conj_as_negdisj (¬P) (¬Q) hnpnq,
+  have hduplneg:  (P∨Q)→(¬¬P ∨ ¬¬Q),
+      intro hor,
+      cases hor with hp hq,
+      ---- case P
+          left,
+          exact doubleneg_intro P hp,
+      --- case Q
+          right,
+          exact doubleneg_intro Q hq,
+  intro hor,
+  have hnnpq :(¬¬P ∨ ¬¬Q) := hduplneg hor,
+  contradiction,
 end
 
 theorem demorgan_conj :
   ¬(P∧Q) → (¬Q ∨ ¬P)  :=
 begin
-  sorry,
+  intro hnpq,
+  left,
+  intro hq,
+
 end
 
 theorem demorgan_conj_converse :
@@ -299,7 +324,8 @@ end
 theorem impl_refl :
   P → P  :=
 begin
-  sorry,
+  intro hp,
+  exact hp,
 end
 
 ------------------------------------------------

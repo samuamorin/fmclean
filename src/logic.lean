@@ -11,19 +11,35 @@ variables P Q R : Prop
 theorem doubleneg_intro :
   P → ¬¬P  :=
 begin
-  sorry,
+  intro hp,
+  intro np,
+  exact np hp,
 end
 
 theorem doubleneg_elim :
   ¬¬P → P  :=
 begin
-  sorry,
+  intro hnnp,
+  by_cases p : P, --LEM cria dois dados novos P e ¬P
+                  -- e dois jogos para cada um
+  exact p, -- fecha o primeiro jogo com dado P
+  exfalso, -- transforma alvo em boom  
+  contradiction, -- tenho em meus dados ¬P e ¬¬P 
 end
 
 theorem doubleneg_law :
   ¬¬P ↔ P  :=
 begin
-  sorry,
+  split,
+  intro hnnp,
+  by_cases hpl: P,  --creates cases P, ¬P
+    -- case P
+    exact hpl,
+    -- case ¬ P
+    contradiction, --¬P e ¬¬P
+  intro hp,
+  intro hnnp,
+  contradiction, -- P e ¬ P
 end
 
 ------------------------------------------------

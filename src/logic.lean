@@ -286,7 +286,13 @@ end
 theorem distr_conj_disj :
   P∧(Q∨R) → (P∧Q)∨(P∧R)  :=
 begin
-  sorry,
+  intro hpqr,
+  cases hpqr with hp hqorr,
+  right,
+  split,
+     exact hp,
+     cases hqorr,
+
 end
 
 theorem distr_conj_disj_converse :
@@ -315,13 +321,23 @@ end
 theorem curry_prop :
   ((P∧Q)→R) → (P→(Q→R))  :=
 begin
-  sorry,
+  intro pandqr,
+  intro hp,
+  intro hq,
+  have hpand: (P∧Q),
+     split,
+     exact hp,
+     exact hq,
+  exact pandqr hpand, 
 end
 
 theorem uncurry_prop :
   (P→(Q→R)) → ((P∧Q)→R)  :=
 begin
-  sorry,
+  intro hpqr,
+  intro pandq,
+  cases pandq with hp hq,
+  exact hpqr hp hq,
 end
 
 
@@ -343,37 +359,54 @@ end
 theorem weaken_disj_right :
   P → (P∨Q)  :=
 begin
-  sorry,
+  intro hp,
+  left,
+  exact hp,
 end
 
 theorem weaken_disj_left :
   Q → (P∨Q)  :=
 begin
-  sorry,
+  intro hq,
+  right,
+  exact hq,
 end
 
 theorem weaken_conj_right :
   (P∧Q) → P  :=
 begin
-  sorry,
+  intro pandq,
+  exact pandq.left,
 end
 
 theorem weaken_conj_left :
   (P∧Q) → Q  :=
 begin
-  sorry,
+  intro hpq,
+  exact hpq.right,
 end
 
 theorem conj_idempot :
   (P∧P) ↔ P :=
 begin
-  sorry,
+  split,
+  intro pandp,
+  exact pandp.right,
+  intro hp,
+  split,
+     repeat{exact hp,},
 end
 
 theorem disj_idempot :
   (P∨P) ↔ P  :=
 begin
-  sorry,
+  split,
+  intro porp,
+  cases porp,
+   repeat{exact porp,},
+  intro hp,
+    left,
+    exact hp,
 end
 
 end propositional

@@ -31,15 +31,8 @@ theorem doubleneg_law :
   ¬¬P ↔ P  :=
 begin
   split,
-  intro hnnp,
-  by_cases hpl: P,  --creates cases P, ¬P
-    -- case P
-    exact hpl,
-    -- case ¬ P
-    contradiction, --¬P e ¬¬P
-  intro hp,
-  intro hnnp,
-  contradiction, -- P e ¬ P
+  exact doubleneg_elim P, 
+  exact doubleneg_intro P,
 end
 
 ------------------------------------------------
@@ -49,13 +42,26 @@ end
 theorem disj_comm :
   (P ∨ Q) → (Q ∨ P)  :=
 begin
-  sorry,
+  intro hor,
+  cases hor with hp hq,
+  -- case left
+    right,
+    exact hp,
+  -- case rigth
+    left,
+    exact hq,
 end
 
 theorem conj_comm :
   (P ∧ Q) → (Q ∧ P)  :=
 begin
-  sorry,
+  intro hand,
+  cases hand with hp hq,
+  split,
+  -- left
+    exact hq,
+  -- rigth,
+    exact hp,
 end
 
 
@@ -66,13 +72,25 @@ end
 theorem impl_as_disj_converse :
   (¬P ∨ Q) → (P → Q)  :=
 begin
-  sorry,
+  intro hor,
+  intro hp,
+  cases hor with hnp hq,
+  -- left (¬P)
+    contradiction,
+  -- right (Q)
+    exact hq,
 end
 
 theorem disj_as_impl :
   (P ∨ Q) → (¬P → Q)  :=
 begin
-  sorry,
+  intro hor,
+  intro hnp,
+  cases hor with hp hq,
+  -- left (P)
+     contradiction,
+  -- right (Q)
+     exact hq,
 end
 
 
@@ -83,19 +101,36 @@ end
 theorem impl_as_contrapositive :
   (P → Q) → (¬Q → ¬P)  :=
 begin
-  sorry,
+  intro hpq,
+  intro hnq,
+  by_cases hp: P, -- LEM
+     -- case LEM P
+     have hq: Q := hpq hp,
+     contradiction,
+     -- case LEM ¬P
+     exact hp,
 end
 
 theorem impl_as_contrapositive_converse :
   (¬Q → ¬P) → (P → Q)  :=
 begin
-  sorry,
+  intro hnqnp,
+  intro hp,
+  by_cases hq: Q, -- LEM Q
+  --- case LEM Q
+     exact hq,
+  --- case LEM ¬Q
+     have hnp: ¬P := hnqnp hq,
+     contradiction, 
 end
 
 theorem contrapositive_law :
   (P → Q) ↔ (¬Q → ¬P)  :=
 begin
-  sorry,
+  split,
+  -- visto do tópico do Ian, como reaproveitar teoremas 
+  exact impl_as_contrapositive P Q,
+  exact impl_as_contrapositive_converse P Q,
 end
 
 
@@ -106,7 +141,16 @@ end
 theorem lem_irrefutable :
   ¬¬(P∨¬P)  :=
 begin
-  sorry,
+  intro hnorp,
+  have hpornp : P∨¬P,-- demonstrar algo nos dados
+      right,
+      intro hp,
+      have hpornp : P∨¬P, -- demonstrar algo nos dados
+         left,
+         exact hp,
+      have false : false := hnorp hpornp, -- aplica proposicao no dado
+      contradiction,
+  contradiction,
 end
 
 
@@ -117,7 +161,14 @@ end
 theorem peirce_law_weak :
   ((P → Q) → P) → ¬¬P  :=
 begin
-  sorry,
+  have tdn := doubleneg_intro P,
+  intro hpqp,
+  apply tdn,
+  have hpq: P → Q,
+      intro hp,
+      
+  
+
 end
 
 
@@ -128,13 +179,27 @@ end
 theorem disj_as_negconj :
   P∨Q → ¬(¬P∧¬Q)  :=
 begin
-  sorry,
+  intro hor,
+  intro hnand,
+  cases hnand with hnp hnq,
+  cases hor with horp horq,
+  -- case P
+     contradiction,
+  -- case Q
+     contradiction,
 end
 
 theorem conj_as_negdisj :
   P∧Q → ¬(¬P∨¬Q)  :=
 begin
-  sorry,
+  intro hand,
+  intro hnor,
+  cases hand with hp hq,
+  cases hnor with hnp hnq,
+  -- case ¬P
+     contradiction,
+  -- case ¬Q
+     contradiction,
 end
 
 
@@ -145,7 +210,10 @@ end
 theorem demorgan_disj :
   ¬(P∨Q) → (¬P ∧ ¬Q)  :=
 begin
-  sorry,
+  intro hnor,
+  have negconj := disj_as_negconj P Q,
+  have negconj : (¬P ∧ ¬Q) := negconj hnor,
+
 end
 
 theorem demorgan_disj_converse :

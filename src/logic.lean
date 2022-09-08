@@ -114,6 +114,7 @@ end
 theorem impl_as_contrapositive_converse :
   (¬Q → ¬P) → (P → Q)  :=
 begin
+
   intro hnqnp,
   intro hp,
   by_cases hq: Q, -- LEM Q
@@ -243,13 +244,18 @@ theorem demorgan_conj :
   ¬(P∧Q) → (¬Q ∨ ¬P)  :=
 begin
   intro hnpq,
-  right,
-  intro hp,
-  have conj := disj_as_negconj P Q,
-
-
-      
-
+  by_cases lem: Q,
+    --- lem Q
+    right,
+    intro hp,
+    have hpandq : (P∧Q),
+       split,
+       exact hp,
+       exact lem, 
+    exact hnpq hpandq,
+    --- lem ¬Q
+    left,
+    exact lem,
 end
 
 theorem demorgan_conj_converse :
@@ -268,7 +274,9 @@ end
 theorem demorgan_conj_law :
   ¬(P∧Q) ↔ (¬Q ∨ ¬P)  :=
 begin
-  sorry,
+  split,
+  exact demorgan_conj P Q,
+  exact demorgan_conj_converse P Q,
 end
 
 theorem demorgan_disj_law :

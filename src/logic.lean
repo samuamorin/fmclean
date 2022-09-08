@@ -149,10 +149,10 @@ begin
       have hpornp : P∨¬P, -- demonstrar algo nos dados
          left,
          exact hp,
-      have false : false := hnorp hpornp, -- aplica proposicao no dado
+         contradiction,
       contradiction,
-  contradiction,
 end
+
 
 
 ------------------------------------------------

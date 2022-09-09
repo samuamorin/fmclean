@@ -244,18 +244,14 @@ theorem demorgan_conj :
   ¬(P∧Q) → (¬Q ∨ ¬P)  :=
 begin
   intro hnpq,
-  by_cases lem: Q,
-    --- lem Q
+  by_cases hq: Q,
+    --- case Q
     right,
     intro hp,
-    have hpandq : (P∧Q),
-       split,
-       exact hp,
-       exact lem, 
-    exact hnpq hpandq,
-    --- lem ¬Q
+    exact hnpq ⟨hp,hq⟩ ,
+    --- case ¬Q
     left,
-    exact lem,
+    exact hq,
 end
 
 theorem demorgan_conj_converse :
@@ -295,18 +291,35 @@ theorem distr_conj_disj :
   P∧(Q∨R) → (P∧Q)∨(P∧R)  :=
 begin
   intro hpqr,
-  cases hpqr with hp hqorr,
-  right,
-  split,
-     exact hp,
-     cases hqorr,
-
+  cases hpqr with hp hqr,
+  cases hqr with hq hr,
+    left,
+      exact ⟨hp, hq⟩,
+    right,
+      exact ⟨hp, hr⟩,
 end
 
 theorem distr_conj_disj_converse :
   (P∧Q)∨(P∧R) → P∧(Q∨R)  :=
 begin
-  sorry,
+  intro hor,
+  cases hor with hpq hpr,
+  --- case P∧Q
+     cases hpq with hp hq,
+     split,
+      --- Part P
+      exact hp,
+      --- Part QVR
+      left,
+        exact hq,
+  --- case P∧R
+      cases hpr with hp hr,
+      split,
+      --- Part P
+      exact hp,
+      --- QVR
+      right,
+        exact hr,
 end
 
 theorem distr_disj_conj :

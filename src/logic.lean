@@ -566,8 +566,16 @@ end
 theorem exists_as_neg_forall_converse :
   ¬(∀x, ¬P x) → (∃x, P x)  :=
 begin
-  have contra := impl_as_contrapositive (¬∀x, ¬P x) (∃x, P x),
-  
+  rw [ contrapositive_law , doubleneg_law],
+  intro hp,
+  intro x,
+  by_cases hpl: P x,
+     -- case P x,
+     have existpx: ∃x, P x,
+         existsi x, exact hpl,
+     contradiction,
+     -- case ¬P x,
+     exact hpl,
 end
 
 theorem forall_as_neg_exists_law :

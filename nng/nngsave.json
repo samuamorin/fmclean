@@ -39,11 +39,13 @@
     },
     {
       "lean": "lemma add_comm (a b : mynat) : a + b = b + a :=\n",
-      "editorText": "induction b with d hd,\r\nrw zero_add,\r\nrw add_zero,\r\nrefl,\r\nrw add_succ,\r\ninduction a with e he,\r\nrw zero_add,\r\nrw succ_add,\r\nrw add_zero,\r\nrefl,\r\nrw hd,\r\n"
+      "isSolved": true,
+      "editorText": "induction b with d hd,\r\nrw zero_add,\r\nrw add_zero,\r\nrefl,\r\nrw add_succ,\r\ninduction a with e he,\r\nrw zero_add,\r\nrw succ_add,\r\nrw add_zero,\r\nrefl,\r\nrw hd,\r\nrw succ_add,\r\nrefl,"
     },
     {
       "lean": "theorem succ_eq_add_one (n : mynat) : succ n = n + 1 :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "induction n with d hd,\r\nrw one_eq_succ_zero,\r\nrw zero_add,\r\nrefl,\r\nrw succ_add,\r\nrw hd,\r\nrefl,"
     },
     {
       "lean": "lemma add_right_comm (a b c : mynat) : a + b + c = a + c + b :=\n",
